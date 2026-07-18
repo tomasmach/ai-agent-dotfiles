@@ -1,11 +1,15 @@
-# Fresh machine setup
+# Fresh machine setup with an AI agent
 
-1. Install Git, `jq`, Claude Code, and Codex using their official instructions.
-2. Authenticate Claude Code and Codex normally. Do not copy authentication files from another machine.
-3. Clone this repository.
-4. Run `./scripts/install --dry-run`, inspect the plan, then run `./scripts/install`.
-5. Optionally install external skills and plugins from the manifests.
-6. Configure Claudex separately if the local CLIProxyAPI profile is needed.
-7. Run `./scripts/doctor`.
+Give your coding agent the repository URL and the prompt in `prompts/install.md`. The agent should inspect the machine, determine which tools are present, and adapt the setup rather than asking you to reproduce file operations manually.
 
-The installer preserves existing files in a timestamped backup. Project trust prompts, desktop preferences, browser integrations, and OS-specific MCP servers are intentionally configured per machine.
+The expected flow is:
+
+1. The agent reads `README.md` and `AGENTS.md`.
+2. It detects the OS, shell, installed tools, and existing configuration.
+3. It explains the applicable components and meaningful conflicts.
+4. It installs or merges the approved pieces with timestamped backups.
+5. It asks you to authenticate through each tool's normal flow. Authentication files are never copied from another machine.
+6. It installs external skills and plugins from the recorded upstream projects.
+7. It validates the configuration and exercises each intended CLI with a harmless prompt.
+
+Project trust prompts, desktop preferences, browser integrations, and OS-specific MCP servers are intentionally configured per machine.

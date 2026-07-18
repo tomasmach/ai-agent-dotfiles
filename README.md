@@ -6,25 +6,26 @@ Portable, public-safe configuration for the AI coding tools I use on macOS and L
 - OpenAI Codex
 - Claudex, a separate Claude Code profile routed through CLIProxyAPI
 
-The repository stores authored instructions, agents, skills, rules, sanitized configuration templates, and reproducible setup scripts. Credentials, histories, caches, machine identifiers, and application-managed runtime files are deliberately excluded.
+The repository stores authored instructions, agents, skills, rules, sanitized configuration templates, and reproducible setup helpers. Credentials, histories, caches, machine identifiers, and application-managed runtime files are deliberately excluded.
 
-## Quick start
+## Give it to your agent
 
-```bash
-git clone https://github.com/tomasmach/ai-agent-dotfiles.git
-cd ai-agent-dotfiles
-./scripts/install
-./scripts/doctor
+You are not expected to install these dotfiles by hand. Point an AI coding agent at this repository and let it inspect your existing setup, explain the available pieces, and adapt the useful parts to your machine.
+
+Paste this:
+
+```text
+Open https://github.com/tomasmach/ai-agent-dotfiles and read README.md and AGENTS.md.
+First inspect my existing AI coding setup and explain which parts of this repository are relevant to me. Then install the compatible parts I approve, merging with my current configuration instead of replacing it blindly. Back up changed files, never copy or expose credentials/runtime state, adapt everything to my OS, and verify each configured CLI with a harmless real prompt when finished.
 ```
 
-The installer creates timestamped backups before changing an existing file. It installs portable files into `~/.claude`, `~/.codex`, and `~/.claudex`; shared personal skills are linked into both Claude profiles. Use `--dry-run` to inspect every action first.
+Ready-made prompts:
 
-```bash
-./scripts/install --dry-run
-./scripts/install --with-external-skills
-```
+- [Understand the setup before changing anything](prompts/explain.md)
+- [Install the appropriate parts on a new machine](prompts/install.md)
+- [Compare and update an existing setup](prompts/update.md)
 
-External skills and plugins are references to their upstream projects, not vendored copies. Review [the manifests](manifests/) and install only the pieces you want.
+The root [AGENTS.md](AGENTS.md) tells an agent how to inspect, merge, back up, install, and verify the setup safely. External skills and plugins are references to their upstream projects, not vendored copies.
 
 ## Repository map
 
@@ -34,43 +35,36 @@ codex/       Codex instructions, rules, config template and custom skills
 claudex/     Isolated Claudex profile plus launchd/systemd templates
 manifests/   External skills and plugin provenance
 scripts/     Install, update, export, doctor and secret-scan commands
+prompts/     Copy-paste requests for exploring, installing, and updating
 docs/        Platform setup, security and customization notes
 tests/       Offline smoke tests for the shell tooling
 ```
 
-## Day-to-day use
+## What an agent should do
 
-Export the current portable configuration back into a checkout:
+An agent installing this setup should:
 
-```bash
-./scripts/export-current
-./scripts/secret-scan
-git diff
-```
+- inspect the tools and configuration already present;
+- recommend only compatible components;
+- merge instructions and portable settings instead of overwriting blindly;
+- back up every replaced file;
+- fetch third-party skills/plugins from their upstream projects;
+- keep credentials and application-managed state local;
+- verify the real Claude Code, Codex, or Claudex flow afterward.
 
-Update a machine from the repository:
+The shell scripts are helpers for the agent and for repository maintenance. They are deliberately not the primary onboarding experience.
 
-```bash
-./scripts/update
-```
+## Updating this repository
 
-The export script is intentionally allowlist-based. It will not copy `auth.json`, `.claude.json`, histories, sessions, databases, plugin caches, OAuth files, or CLIProxyAPI credentials.
+Ask your agent to export current portable changes, review the diff, run the secret scan, and publish a conventional commit. The export helper is allowlist-based and excludes `auth.json`, `.claude.json`, histories, sessions, databases, plugin caches, OAuth files, and CLIProxyAPI credentials.
 
 ## Claudex
 
-Claudex uses its own `CLAUDE_CONFIG_DIR` and a local CLIProxyAPI endpoint. Put its token in a private environment file:
-
-```bash
-mkdir -p ~/.config/claudex
-printf '%s\n' 'ANTHROPIC_AUTH_TOKEN=replace-me' > ~/.config/claudex/env
-chmod 600 ~/.config/claudex/env
-```
-
-Then install the profile and run `claudex`. See [docs/claudex.md](docs/claudex.md) for proxy setup and service templates.
+Claudex uses its own `CLAUDE_CONFIG_DIR`, a local CLIProxyAPI endpoint, and private machine-local credentials. Let the installing agent create the profile and tell you exactly when a private value or authentication step is required. See [docs/claudex.md](docs/claudex.md) for the underlying proxy setup and service templates.
 
 ## Safety and ownership
 
-- Never commit secrets. `./scripts/secret-scan` runs pattern, entropy-oriented, filename, and tracked-file checks.
+- Never commit secrets. The included scanner performs pattern, entropy-oriented, filename, and tracked-file checks.
 - External work remains under its upstream license. This repository records source and version information instead of relicensing it.
 - The root MIT license covers original material in this repository only.
 - Machine-specific trust state and project paths are rebuilt locally, not published.
@@ -82,7 +76,7 @@ Read [docs/security.md](docs/security.md) before making the repository public or
 - macOS with Bash 3.2+, Zsh, Git, `jq`, Claude Code, Codex, and optionally Homebrew
 - Linux (including Nobara) with Bash, Git, `jq`, Claude Code, Codex, and optionally user systemd
 
-The scripts do not install Claude Code, Codex, or CLIProxyAPI automatically. They configure already-installed tools and explain missing prerequisites.
+The repository does not assume every machine should receive every component. Its agent instructions explicitly require environment discovery and selective installation.
 
 ## License
 
