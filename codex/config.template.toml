@@ -1,0 +1,68 @@
+model = "gpt-5.6-sol"
+model_reasoning_effort = "medium"
+personality = "pragmatic"
+approval_policy = "never"
+default_permissions = ":danger-full-access"
+plan_mode_reasoning_effort = "xhigh"
+sandbox_mode = "danger-full-access"
+service_tier = "default"
+approvals_reviewer = "user"
+hide_spawn_agent_metadata = true
+
+[features]
+experimental_use_rmcp_client = true
+goals = true
+js_repl = false
+
+[mcp_servers.playwright]
+command = "npx"
+args = ["@playwright/mcp@latest"]
+
+[mcp_servers.supabase]
+url = "https://mcp.supabase.com/mcp"
+enabled = false
+
+[mcp_servers.context7]
+url = "https://mcp.context7.com/mcp"
+
+[mcp_servers.linear]
+url = "https://mcp.linear.app/mcp"
+enabled = false
+
+[mcp_servers.openaiDeveloperDocs]
+url = "https://developers.openai.com/mcp"
+
+[tui]
+status_line = [ "model-with-reasoning", "current-dir", "context-used", "git-branch", "pull-request-number" ]
+status_line_use_colors = true
+
+[tui.model_availability_nux]
+"gpt-5.5" = 4
+"gpt-5.6-sol" = 4
+
+[plugins."stripe@openai-curated"]
+enabled = true
+
+[plugins."documents@openai-primary-runtime"]
+enabled = true
+
+[plugins."spreadsheets@openai-primary-runtime"]
+enabled = true
+
+[plugins."presentations@openai-primary-runtime"]
+enabled = true
+
+[plugins."pdf@openai-primary-runtime"]
+enabled = true
+
+[plugins."template-creator@openai-primary-runtime"]
+enabled = true
+
+[plugins."visualize@openai-bundled"]
+enabled = true
+
+[plugins."browser@openai-bundled"]
+enabled = true
+
+[notice]
+fast_default_opt_out = true

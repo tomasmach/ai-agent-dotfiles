@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+set -uo pipefail
+
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=lib.sh
+source "$script_dir/lib.sh"
+failures=0
+warnings=0
+
+ok() { printf 'OK    %s\n' "$1"; }
+warn() { printf 'WARN  %s\n' "$1"; warnings=$((warnings + 1)); }
+fail() { printf 'FAIL  %s\n' "$1"; failures=$((failures + 1)); }
+
+for command in git jq; do
+  command -v "$command" >/dev/null 2>&1 && ok "$command is available" || fail "$command is missing"
+done
+for command in claude codex; do
+  command -v "$command" >/dev/null 2>&1 && ok "$command is available" || warn "$command is not on PATH"
+done
+
+for file in "$HOME/.claude/CLAUDE.md" "$HOME/.codex/AGENTS.md" "$HOME/.claudex/CLAUDE.md"; do
+  [[ -f "$file" ]] && ok "$file exists" || warn "$file is not installed"
+done
+
+jq empty "$HOME/.claude/settings.json" >/dev/null 2>&1 && ok 'Claude settings are valid JSON' || warn 'Claude settings are missing or invalid'
+jq empty "$HOME/.claudex/settings.json" >/dev/null 2>&1 && ok 'Claudex settings are valid JSON' || warn 'Claudex settings are missing or invalid'
+
+env_file="$HOME/.config/claudex/env"
+if [[ -f "$env_file" ]]; then
+  mode="$(stat -f '%Lp' "$env_file" 2>/dev/null || stat -c '%a' "$env_file" 2>/dev/null || true)"
+  [[ "$mode" == "600" || "$mode" == "400" ]] && ok 'Claudex environment permissions are private' || fail "Claudex environment mode is ${mode:-unknown}, expected 600 or 400"
+else
+  warn 'Claudex environment file is not configured'
+fi
+
+if command -v systemctl >/dev/null 2>&1; then
+  systemctl --user is-active --quiet cliproxyapi.service 2>/dev/null && ok 'CLIProxyAPI user service is active' || warn 'CLIProxyAPI user service is not active'
+elif [[ "$(uname -s)" == "Darwin" ]]; then
+  pgrep -f '[c]liproxyapi' >/dev/null 2>&1 && ok 'CLIProxyAPI process is running' || warn 'CLIProxyAPI process is not running'
+fi
+
+printf '\n%d failure(s), %d warning(s)\n' "$failures" "$warnings"
+[[ "$failures" -eq 0 ]]

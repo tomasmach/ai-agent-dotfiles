@@ -1,0 +1,138 @@
+{
+  "schemaVersion": 1,
+  "skills": [
+    {
+      "name": "app-onboarding-questionnaire",
+      "source": "https://github.com/adamlyttleapps/claude-skill-app-onboarding-questoinnaire.git",
+      "path": ".",
+      "revision": "5bc4786d80f2c23de60b3ba02773e919ed8fd091",
+      "targets": ["claude", "claudex"]
+    },
+    {
+      "name": "humanizer",
+      "source": "https://github.com/blader/humanizer.git",
+      "path": ".",
+      "revision": "12881abf6671c4ab62eceeb56f911b752f9fd6d2",
+      "targets": ["claude", "claudex", "codex"]
+    },
+    {
+      "name": "summarize",
+      "source": "https://github.com/reysu/ai-life-skills.git",
+      "path": "summarize",
+      "revision": "5305e611fddebf3fac47f5628e148ee6f1c55488",
+      "targets": ["claude", "claudex"]
+    },
+    {
+      "name": "summarize-call",
+      "source": "https://github.com/reysu/ai-life-skills.git",
+      "path": "summarize-call",
+      "revision": "5305e611fddebf3fac47f5628e148ee6f1c55488",
+      "targets": ["claude", "claudex"]
+    },
+    {
+      "name": "marketing-psychology",
+      "source": "https://github.com/coreyhaines31/marketingskills.git",
+      "path": "skills/marketing-psychology",
+      "contentHash": "ec8b7c10f5707ab69cd6e658a75480cd3e18ceef",
+      "targets": ["claude", "claudex"]
+    },
+    {
+      "name": "seo-audit",
+      "source": "https://github.com/coreyhaines31/marketingskills.git",
+      "path": "skills/seo-audit",
+      "contentHash": "c5423e592d1ce900fafca88b17f3896eea53b237",
+      "targets": ["claude", "claudex"]
+    },
+    {
+      "name": "brandkit",
+      "source": "https://github.com/Leonxlnx/taste-skill.git",
+      "path": "skills/brandkit",
+      "contentHash": "d278ff748cafab01e4ae5dd7758fc0b53258621c",
+      "targets": ["claude", "claudex"]
+    },
+    {
+      "name": "design-taste-frontend",
+      "source": "https://github.com/Leonxlnx/taste-skill.git",
+      "path": "skills/taste-skill",
+      "contentHash": "a6d128e53b4ec0238baee751dde33bf707adb5ec",
+      "targets": ["claude", "claudex"]
+    },
+    {
+      "name": "full-output-enforcement",
+      "source": "https://github.com/Leonxlnx/taste-skill.git",
+      "path": "skills/output-skill",
+      "contentHash": "3dd6ad49b667d15182acddc9d3e4f7763ae33c9c",
+      "targets": ["claude", "claudex"]
+    },
+    {
+      "name": "gpt-taste",
+      "source": "https://github.com/Leonxlnx/taste-skill.git",
+      "path": "skills/gpt-tasteskill",
+      "contentHash": "c87d529ad945cd35985b19475bf53f41682d4f69",
+      "targets": ["claude", "claudex"]
+    },
+    {
+      "name": "high-end-visual-design",
+      "source": "https://github.com/Leonxlnx/taste-skill.git",
+      "path": "skills/soft-skill",
+      "contentHash": "1b5943432ddd1b980206968c529a323cc992dbec",
+      "targets": ["claude", "claudex"]
+    },
+    {
+      "name": "image-to-code",
+      "source": "https://github.com/Leonxlnx/taste-skill.git",
+      "path": "skills/image-to-code-skill",
+      "contentHash": "701b3cb89c061fcf98a98f639e0b0b5c0b492479",
+      "targets": ["claude", "claudex"]
+    },
+    {
+      "name": "imagegen-frontend-mobile",
+      "source": "https://github.com/Leonxlnx/taste-skill.git",
+      "path": "skills/imagegen-frontend-mobile",
+      "contentHash": "9901fcde67e9506a706912107825fdfb72e01f30",
+      "targets": ["claude", "claudex"]
+    },
+    {
+      "name": "imagegen-frontend-web",
+      "source": "https://github.com/Leonxlnx/taste-skill.git",
+      "path": "skills/imagegen-frontend-web",
+      "contentHash": "3b5117d349200e33f9c3399344681620079dcc18",
+      "targets": ["claude", "claudex"]
+    },
+    {
+      "name": "industrial-brutalist-ui",
+      "source": "https://github.com/Leonxlnx/taste-skill.git",
+      "path": "skills/brutalist-skill",
+      "contentHash": "f812ede7e5c34cf680f629911e9f9ac05e416cf4",
+      "targets": ["claude", "claudex"]
+    },
+    {
+      "name": "minimalist-ui",
+      "source": "https://github.com/Leonxlnx/taste-skill.git",
+      "path": "skills/minimalist-skill",
+      "contentHash": "5509c012862cda27e2ed7efae89ed940ecc53add",
+      "targets": ["claude", "claudex"]
+    },
+    {
+      "name": "redesign-existing-projects",
+      "source": "https://github.com/Leonxlnx/taste-skill.git",
+      "path": "skills/redesign-skill",
+      "contentHash": "d9cffe56d26d4af7687299e391a7be1cfaf46c1b",
+      "targets": ["claude", "claudex"]
+    },
+    {
+      "name": "stitch-design-taste",
+      "source": "https://github.com/Leonxlnx/taste-skill.git",
+      "path": "skills/stitch-skill",
+      "contentHash": "743fba3540a3593f15d548935f08f74788e76d3d",
+      "targets": ["claude", "claudex"]
+    },
+    {
+      "name": "obsidian-cli",
+      "source": null,
+      "path": null,
+      "note": "Local provenance was unavailable; retained as a documented manual dependency and not redistributed.",
+      "targets": ["claude", "claudex"]
+    }
+  ]
+}

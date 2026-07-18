@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "plugins": [
+    {"id": "stripe@openai-curated", "enabled": true},
+    {"id": "documents@openai-primary-runtime", "enabled": true},
+    {"id": "spreadsheets@openai-primary-runtime", "enabled": true},
+    {"id": "presentations@openai-primary-runtime", "enabled": true},
+    {"id": "pdf@openai-primary-runtime", "enabled": true},
+    {"id": "template-creator@openai-primary-runtime", "enabled": true},
+    {"id": "visualize@openai-bundled", "enabled": true},
+    {"id": "browser@openai-bundled", "enabled": true}
+  ],
+  "macosOnly": [
+    {"id": "build-macos-apps@openai-curated", "enabled": true},
+    {"id": "computer-use@openai-bundled", "enabled": true},
+    {"id": "chrome@openai-bundled", "enabled": true}
+  ],
+  "managedSkillsNotVendored": ["linear", "playwright"],
+  "excludedRuntimeSkills": [".system", "codex-primary-runtime"]
+}

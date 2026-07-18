@@ -1,0 +1,15 @@
+[Unit]
+Description=CLIProxyAPI for Claudex
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStart=%h/.local/bin/cliproxyapi -config %h/.config/cliproxyapi/config.yaml
+Restart=on-failure
+RestartSec=3
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=default.target

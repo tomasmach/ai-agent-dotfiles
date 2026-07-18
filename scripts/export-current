@@ -1,0 +1,71 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=lib.sh
+source "$script_dir/lib.sh"
+root="$(repo_root)"
+require_command jq
+
+copy_file() {
+  local source="$1" destination="$2"
+  [[ -f "$source" ]] || { printf 'skip missing %s\n' "$source"; return 0; }
+  mkdir -p "$(dirname "$destination")"
+  cp "$source" "$destination"
+}
+
+copy_tree() {
+  local source="$1" destination="$2"
+  [[ -d "$source" ]] || { printf 'skip missing %s\n' "$source"; return 0; }
+  rm -rf "$destination"
+  mkdir -p "$(dirname "$destination")"
+  cp -R "$source" "$destination"
+  find "$destination" -name .git -type d -prune -exec rm -rf {} +
+}
+
+replace_home() {
+  sed -e "s|$HOME|__HOME__|g" "$1" > "$2"
+}
+
+replace_home "$HOME/.claude/CLAUDE.md" "$root/claude/CLAUDE.md"
+mkdir -p "$root/claude/agents" "$root/claude/commands/uprate" "$root/claude/skills"
+for name in uprate-aso-codebase-analyzer uprate-codebase-analyzer; do
+  copy_file "$HOME/.claude/agents/$name.md" "$root/claude/agents/$name.md"
+done
+if [[ -d "$HOME/.claude/commands/uprate" ]]; then
+  copy_tree "$HOME/.claude/commands/uprate" "$root/claude/commands/uprate"
+fi
+for name in codex-computer-use codex-implementation codex-review html-plan verify; do
+  copy_tree "$HOME/.claude/skills/$name" "$root/claude/skills/$name"
+done
+
+jq --arg home "$HOME" '
+  del(.permissions.allow)
+  | walk(if type == "string" then gsub($home; "__HOME__") else . end)
+  | if (.model | type) == "string" then .model |= sub("\\[1m\\]$"; "") else . end
+' "$HOME/.claude/settings.json" > "$root/claude/settings.template.json"
+
+replace_home "$HOME/.codex/AGENTS.md" "$root/codex/AGENTS.md"
+replace_home "$HOME/.codex/rules/default.rules" "$root/codex/rules/default.rules"
+copy_tree "$HOME/.codex/skills/html-plan" "$root/codex/skills/html-plan"
+
+awk '
+  /^notify[[:space:]]*=/ {next}
+  /^\[projects\./ {skip=1; next}
+  /^\[mcp_servers\.computer_use\]/ || /^\[mcp_servers\.node_repl\]/ || /^\[mcp_servers\.node_repl\.env\]/ || /^\[mcp_servers\.pencil\]/ || /^\[mcp_servers\.computer-use\]/ {skip=1; next}
+  /^\[plugins\."build-macos-apps@/ || /^\[plugins\."computer-use@/ || /^\[plugins\."chrome@/ {skip=1; next}
+  /^\[desktop\]/ || /^\[desktop\./ || /^\[marketplaces\./ || /^\[shell_environment_policy\.set\]/ {skip=1; next}
+  /^\[/ {skip=0}
+  !skip {print}
+' "$HOME/.codex/config.toml" \
+  | sed "s|$HOME|__HOME__|g" \
+  | awk 'NF {if (blank) print ""; print; blank=0; next} {blank=1}' \
+  > "$root/codex/config.template.toml"
+
+replace_home "$HOME/.claudex/CLAUDE.md" "$root/claudex/CLAUDE.md"
+copy_tree "$HOME/.claudex/agents" "$root/claudex/agents"
+jq --arg home "$HOME" 'walk(if type == "string" then gsub($home; "__HOME__") else . end)' \
+  "$HOME/.claudex/settings.json" > "$root/claudex/settings.template.json"
+
+chmod +x "$root"/scripts/* "$root/shell/claudex"
+printf 'Exported allowlisted configuration. Review git diff, then run scripts/secret-scan.\n'

@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+git -C "$root" diff --quiet || { printf 'Refusing to update with local changes.\n' >&2; exit 1; }
+git -C "$root" diff --cached --quiet || { printf 'Refusing to update with staged changes.\n' >&2; exit 1; }
+git -C "$root" pull --ff-only
+"$root/scripts/install" "$@"
+"$root/scripts/doctor"

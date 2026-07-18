@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "marketplaces": {
+    "claude-plugins-official": "anthropics/claude-plugins-official",
+    "openai-codex": "openai/codex-plugin-cc",
+    "ralph-marketplace": "snarktank/ralph",
+    "ui-ux-pro-max-skill": "nextlevelbuilder/ui-ux-pro-max-skill"
+  },
+  "plugins": [
+    {"id": "context7@claude-plugins-official", "enabled": true},
+    {"id": "github@claude-plugins-official", "enabled": true},
+    {"id": "playwright@claude-plugins-official", "enabled": true},
+    {"id": "supabase@claude-plugins-official", "enabled": true, "recordedVersion": "0.1.12"},
+    {"id": "ui-ux-pro-max@ui-ux-pro-max-skill", "enabled": true, "recordedVersion": "2.0.1"},
+    {"id": "codex@openai-codex", "enabled": true, "recordedVersion": "1.0.5"},
+    {"id": "vercel@claude-plugins-official", "enabled": true, "recordedVersion": "0.44.0"},
+    {"id": "code-simplifier@claude-plugins-official", "enabled": false, "recordedVersion": "1.0.0"},
+    {"id": "code-review@claude-plugins-official", "enabled": false},
+    {"id": "superpowers@claude-plugins-official", "enabled": false, "recordedVersion": "6.1.1"}
+  ],
+  "standalone": [
+    {
+      "name": "get-shit-done-cc",
+      "source": "https://github.com/glittercowboy/get-shit-done",
+      "recordedVersion": "1.21.0",
+      "install": "npx get-shit-done-cc --global"
+    }
+  ]
+}

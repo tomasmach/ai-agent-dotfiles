@@ -1,0 +1,77 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=lib.sh
+source "$script_dir/lib.sh"
+root="$(repo_root)"
+dry_run=0
+with_external=0
+
+for argument in "$@"; do
+  case "$argument" in
+    --dry-run) dry_run=1 ;;
+    --with-external-skills) with_external=1 ;;
+    -h|--help)
+      printf 'Usage: %s [--dry-run] [--with-external-skills]\n' "$0"
+      exit 0
+      ;;
+    *) printf 'unknown argument: %s\n' "$argument" >&2; exit 2 ;;
+  esac
+done
+
+backup_root="$HOME/.local/state/ai-agent-dotfiles/backups/$(timestamp)"
+[[ "$dry_run" == "1" ]] || mkdir -p "$backup_root"
+
+portable_template "$root/claude/CLAUDE.md" "$HOME/.claude/CLAUDE.md" "$backup_root" "$dry_run"
+portable_template "$root/claude/settings.template.json" "$HOME/.claude/settings.json" "$backup_root" "$dry_run"
+for agent in "$root"/claude/agents/*.md; do
+  [[ -f "$agent" ]] || continue
+  portable_copy "$agent" "$HOME/.claude/agents/${agent##*/}" "$backup_root" "$dry_run"
+done
+if [[ -d "$root/claude/commands" ]]; then
+  while IFS= read -r command_file; do
+    relative="${command_file#$root/claude/commands/}"
+    portable_copy "$command_file" "$HOME/.claude/commands/$relative" "$backup_root" "$dry_run"
+  done < <(find "$root/claude/commands" -type f -name '*.md' | sort)
+fi
+
+for skill in "$root"/claude/skills/*; do
+  [[ -d "$skill" ]] || continue
+  portable_copy "$skill" "$HOME/.claude/skills/${skill##*/}" "$backup_root" "$dry_run"
+done
+
+portable_template "$root/codex/AGENTS.md" "$HOME/.codex/AGENTS.md" "$backup_root" "$dry_run"
+portable_template "$root/codex/config.template.toml" "$HOME/.codex/config.toml" "$backup_root" "$dry_run"
+portable_template "$root/codex/rules/default.rules" "$HOME/.codex/rules/default.rules" "$backup_root" "$dry_run"
+for skill in "$root"/codex/skills/*; do
+  [[ -d "$skill" ]] || continue
+  portable_copy "$skill" "$HOME/.codex/skills/${skill##*/}" "$backup_root" "$dry_run"
+done
+
+portable_template "$root/claudex/CLAUDE.md" "$HOME/.claudex/CLAUDE.md" "$backup_root" "$dry_run"
+portable_template "$root/claudex/settings.template.json" "$HOME/.claudex/settings.json" "$backup_root" "$dry_run"
+portable_copy "$root/claudex/agents" "$HOME/.claudex/agents" "$backup_root" "$dry_run"
+portable_copy "$root/shell/claudex" "$HOME/.local/bin/claudex" "$backup_root" "$dry_run"
+[[ "$dry_run" == "1" ]] || chmod 700 "$HOME/.local/bin/claudex"
+
+if [[ "$dry_run" == "0" ]]; then
+  for skill in "$HOME/.claude/skills"/*; do
+    [[ -d "$skill" ]] || continue
+    name="${skill##*/}"
+    if [[ ! -e "$HOME/.claudex/skills/$name" ]]; then
+      mkdir -p "$HOME/.claudex/skills"
+      ln -s "$skill" "$HOME/.claudex/skills/$name"
+    fi
+  done
+fi
+
+if [[ "$with_external" == "1" ]]; then
+  "$script_dir/install-external-skills" $([[ "$dry_run" == "1" ]] && printf '%s' '--dry-run')
+fi
+
+if [[ "$dry_run" == "1" ]]; then
+  printf 'Dry run complete.\n'
+else
+  printf 'Installed. Previous files are backed up in %s\n' "$backup_root"
+fi

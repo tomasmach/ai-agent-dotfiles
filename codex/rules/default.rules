@@ -1,0 +1,4 @@
+prefix_rule(pattern=["mkdir", "-p", "__HOME__/.agents/skills"], decision="allow")
+prefix_rule(pattern=["git", "clone", "https://github.com/lukasstibor/mark46.git", "__HOME__/mark46"], decision="allow")
+prefix_rule(pattern=["git", "clone", "https://github.com/lukasstibor/mark46.git", "__HOME__/Code/mark46"], decision="allow")
+prefix_rule(pattern=["rm", "-rf", "__HOME__/mark46"], decision="allow")

@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=lib.sh
+source "$script_dir/lib.sh"
+root="$(repo_root)"
+dry_run=0
+[[ "${1:-}" == "--dry-run" ]] && dry_run=1
+require_command jq
+require_command git
+
+while IFS=$'\t' read -r name source path revision; do
+  [[ -n "$source" && "$source" != "null" ]] || {
+    printf 'skip %s: no reproducible upstream source\n' "$name"
+    continue
+  }
+  if [[ "$dry_run" == "1" ]]; then
+    printf 'install external skill %s from %s (%s)\n' "$name" "$source" "${revision:-latest}"
+    continue
+  fi
+  temp_root="$(mktemp -d)"
+  trap 'rm -rf "$temp_root"' EXIT
+  git clone --quiet --filter=blob:none "$source" "$temp_root/source"
+  if [[ -n "$revision" && "$revision" != "null" ]]; then
+    git -C "$temp_root/source" checkout --quiet "$revision"
+  fi
+  source_path="$temp_root/source/${path#.}"
+  [[ -d "$source_path" ]] || { printf 'missing skill path for %s: %s\n' "$name" "$path" >&2; exit 1; }
+  rm -rf "$HOME/.claude/skills/$name"
+  mkdir -p "$HOME/.claude/skills"
+  cp -R "$source_path" "$HOME/.claude/skills/$name"
+  mkdir -p "$HOME/.claudex/skills"
+  rm -rf "$HOME/.claudex/skills/$name"
+  ln -s "$HOME/.claude/skills/$name" "$HOME/.claudex/skills/$name"
+  rm -rf "$temp_root"
+  trap - EXIT
+done < <(jq -r '.skills[] | [.name, .source, (.path // "."), (.revision // "")] | @tsv' "$root/manifests/external-skills.json")

@@ -1,0 +1,41 @@
+.DS_Store
+*.swp
+*.tmp
+*.bak
+*.log
+
+# Local overrides and credentials
+.env
+.env.*
+!.env.example
+secrets/
+**/auth.json
+**/*oauth*.json
+**/*credentials*.json
+**/*token*.json
+**/.claude.json
+**/settings.local.json
+**/config.local.*
+
+# Runtime state that must never become dotfiles
+**/history.jsonl
+**/sessions/
+**/projects/
+**/cache/
+**/backups/
+**/telemetry/
+**/file-history/
+**/shell-snapshots/
+**/paste-cache/
+**/tasks/
+**/teams/
+**/worktrees/
+**/attachments/
+**/generated_images/
+**/*.sqlite
+**/*.sqlite-shm
+**/*.sqlite-wal
+
+# Export and test scratch data
+.export-staging/
+.test-tmp/

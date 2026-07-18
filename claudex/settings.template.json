@@ -1,0 +1,13 @@
+{
+  "env": {
+    "CLAUDE_CODE_AUTO_COMPACT_WINDOW": "320000",
+    "CLAUDE_AUTOCOMPACT_PCT_OVERRIDE": "95",
+    "ENABLE_TOOL_SEARCH": "true"
+  },
+  "model": "gpt-5.6-sol",
+  "enabledPlugins": {},
+  "language": "Czech",
+  "effortLevel": "medium",
+  "skipDangerousModePermissionPrompt": true,
+  "theme": "dark"
+}
