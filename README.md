@@ -58,6 +58,12 @@ The shell scripts are helpers for the agent and for repository maintenance. They
 
 Ask your agent to export current portable changes, review the diff, run the secret scan, and publish a conventional commit. The export helper is allowlist-based and excludes `auth.json`, `.claude.json`, histories, sessions, databases, plugin caches, OAuth files, and CLIProxyAPI credentials.
 
+## Current working roles
+
+Codex with GPT-6 Astra is the primary implementation and verification agent, including small UI changes. Claude with Fable 5.1 is used for substantial design work, independent planning, and critique. These are personal workflow preferences, not a guarantee that a model is available in every installed tool; verify the configured model and respect an explicit user choice.
+
+The portable instructions preserve existing project stacks, use focused runtime verification, and require an explicit current instruction for production deployment. The Claude-to-Codex skills support bounded handoffs rather than routing every file read through a second CLI.
+
 ## Claudex
 
 Claudex uses its own `CLAUDE_CONFIG_DIR`, a local CLIProxyAPI endpoint, and private machine-local credentials. Let the installing agent create the profile and tell you exactly when a private value or authentication step is required. See [docs/claudex.md](docs/claudex.md) for the underlying proxy setup and service templates.

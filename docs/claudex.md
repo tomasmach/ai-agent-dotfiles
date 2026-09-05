@@ -4,7 +4,7 @@ Claudex is a second Claude Code profile:
 
 - configuration: `~/.claudex`
 - API base URL: `http://127.0.0.1:8317`
-- model: `gpt-5.6-sol`
+- model: selected by `CLAUDEX_MODEL` in the private environment file; the shipped wrapper/example currently default to `gpt-5.6-sol`. Verify proxy availability before choosing another model. The profile instructions do not define a model identity or force a tier-by-tier itinerary.
 - credentials: `~/.config/claudex/env` (untracked, mode `0600`)
 
 Create the credential file from the example:

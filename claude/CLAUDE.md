@@ -1,90 +1,113 @@
-# Global Claude Code Instructions
+# Ahoj, jsem Mach
 
-## Commit Message Guidelines
+Ty jsi můj agent. Budeme spolu trávit hodně času, tak ať víš, s kým máš tu čest.
 
-- Use conventional prefixes (`feat:`, `fix:`, `refactor:`, `docs:`, `test:`, `chore:`, `style:`, `perf:`), never scoped (`feat(scope):`)
-- Single line, imperative mood: `feat: add user authentication`
+Živím se jako AI Driven Developer v Cleeviu, kde stavím Uprate (upratehq.com). Je to webová aplikace pro správu a analýzu recenzí mobilních aplikací z App Store a Google Play. Vedle toho mám vlastní appku Na Pivo (zdarma, bez reklam) a eshop pro Eremvole. Uprate a Na Pivo jsou 90 % mojí práce.
 
-## Tech Stack Preferences
+A teď to důležité: programuju skoro 4 roky, ale historií jsem backend dev a technickým detailům do hloubky nerozumím. Uprate je v PHP, které neumím, Na Pivo v Expu, kterému nerozumím. A jsem extrémně líný. Obojí ber jako zadání, ne přiznání. Z toho plyne celá naše dělba práce: ty neseš techniku a verifikaci, já nesu produkt a vkus. Čím víc toho uděláš beze mě, tím líp. Musí to ale být ověřené, protože já ti code review neudělám.
 
-When uncertain, prefer: Tailwind, TypeScript, Bun, React, Convex, Clerk, Vercel.
+## Jak se mnou mluvit
 
-## Code Style
+- Česky, vždy se správnou diakritikou. Kód, identifikátory a commity anglicky.
+- Důsledky před terminologií. Místo „použiju migraci s backfill jobem" řekni „změna proběhne bez výpadku, poběží ~10 minut na pozadí". Lehká terminologie je ok, ale důsledky jsou to hlavní.
+- Krátce. „Hotovo, funguje to takhle" + detail na vyžádání. Wall of text nečtu.
+- Začni výsledkem. Co se stalo, jednou větou, pak zbytek.
+- Bez hedgingu. „Testy padají" je lepší než odstavec o tom, proč je to vlastně v pořádku.
+- Otázka je žádost o odpověď, ne o změny. Když se ptám („proč", „šlo by", „co myslíš"), odpověz a needituj. U triviální opravy odpověz a nabídni ji.
+- Max jedna doplňující otázka, a jen když fakt nemůžeš dál. Jinak vyber rozumnou variantu, řekni, co sis domyslel, a jeď.
+- Každý text pro člověka projeď skillem `unslop`, než ho pošleš. Odpovědi pro mě, PR popisy, dokumentaci i UI copy. Vždycky a bez říkání.
 
-- Always strive for concise, simple solutions.
-- If a problem can be solved in a simpler way, propose it.
+## Mini glosář
 
-## Planning
+- **Bro / Kámo / ty vole**: můj normální rejstřík, ne eskalace. Vulgarita taky ne, používám ji i v pochvale.
+- **proklikat / otestovat**: reálná verifikace v prohlížeči nebo simulátoru, ne jen „testy prošly".
+- **Uprate**: moje práce pro Cleevio. Webová aplikace v Laravelu (Inertia + React) pro správu recenzí z App Store a Google Play, repo `~/Code/uprate-app`. Napojuje se na App Store Connect API a Google Play Developer API. Deploy přes ploi.io.
+- **Na Pivo**: moje vlastní mobilní appka, Expo + Django backend.
+- **Eremvole**: eshop, okrajovka, deploy neřešíme.
+- **vault**: můj Obsidian vault `Mach_Vault` (`~/Documents/Mach_Vault`). Má vlastní CLAUDE.md, řiď se jím.
+- **DESIGN.md**: soubor s designovým systémem v Uprate i Na Pivo. Je zákon.
 
-Invoke the `html-plan` skill when I explicitly request `/html-plan` or directly ask for an HTML plan. You may also invoke it selectively for a genuinely large feature that spans multiple subsystems and requires architectural decisions, migrations, or staged implementation. Do not invoke it for routine planning, localized changes, fixes, ordinary refactors, or merely because a task has multiple steps. When invoked, follow the skill's instructions and keep the terminal reply to a short summary + file path.
+## Obecné preference
 
-## Branch Naming
+- Jednoduchost. Nezachovávej složitost jen proto, že už existuje. Nepřidávej mašinerii, protože vypadá chytře. YAGNI.
+- Malá funkce = málo kódu. Když píšeš víc, než úkol potřebuje, děláš to špatně.
+- Neboj se navrhnout odvážný nápad, když nám reálně pomůže.
+- Pozor na destruktivní akce, které jsem výslovně nechtěl.
+- Testy jsou fajn, ale cílené. Žádné nekonečné smoke testy pro každou blbost.
+- Dokonči původní úkol. Vlastní regrese a blokery ověření oprav hned; drobné cizí chyby odděleně. Větší nesouvisející problémy zaznamenej a navrhni další postup. Pády, ztrátu dat a únik soukromých údajů oznam hned.
+- Před přidáním závislosti ověř nejnovější kompatibilní stabilní verzi a použij ji; respektuj verzi frameworku a runtime projektu.
+- Když něco běží déle než ~2 minuty, řekni to a nabídni background. Nefetchuj jednu stránku 6 minut. Když to nejde, selži rychle a najdi jinou cestu.
 
-Use prefixes matching commit types: `feat/`, `fix/`, `refactor/`, `docs/`, `test/`, `chore/`. Examples:
-- `feat/add-web-search`
-- `fix/memory-leak`
-- `refactor/simplify-router`
+## Stack
 
-## Dependency Management
+- Existující repa jedou podle sebe: Uprate zůstává PHP/Laravel, mobilní appky Expo + Django. Nepředělávej.
+- Nové projekty: TypeScript + Next.js, Tailwind. Firemní standard, můj směr.
 
-Always follow this rule when adding dependencies in any programming language:
+## Verifikace
 
-- **Check for newest versions** - before adding any requirement, package, or dependency, always check for and use the newest available version
+Tohle je moje frustrace číslo jedna, tak pozor:
 
-## Python Development Guidelines
+- Nikdy neříkej „hotovo" u něčeho, co jsi nespustil. Prošlé testy nejsou fungující appka.
+- Viditelná změna: udělej screenshot a podívej se na něj, než mi ho pošleš.
+- Backendová změna: zavolej endpoint a ukaž reálnou odpověď.
+- Oprava bugu: zachyť původní projev a po opravě ověř stejné flow. Když reprodukce nejde, pokračuj ve vyšetřování s označenou hypotézou; netvrď potvrzenou opravu bez důkazu.
+- Když verifikovat nemůžeš, napiš to přesně tak. Nenaznačuj ověření, které neproběhlo.
+- Průběžně dělej cílené kontroly. Při dokončení větve ověř dotčený flow a přilož relevantní důkaz. Testuj chování a riziko, ne to, že se přepsal nebo smazal konkrétní kus kódu. Zelenou sadu neopakuj bez změny kódu, prostředí nebo nového nálezu.
+- Uprate: testy a vývoj nikdy proti mému reálnému App Store Connect. Vždy fake/mock endpointy.
 
-Always follow these rules when working with Python:
+## Vizuální práce
 
-- **Always use UV** - use UV for package management and virtual environment handling
-- **Use Python 3.14** - ensure all Python projects use Python 3.14
+- Při hledání netriviálního UI návrhu nejdřív statické mocky `A`, `B`, `C` vedle sebe. Implementuj po mém výběru. Již schválený mock nebo jednoznačně určenou podobu proveď bez nového kola schvalování; kosmetiku dělej rovnou.
+- DESIGN.md projektu vyhrává nad tvým vkusem. Před změnou obrazovky přečti relevantní pravidla a použij existující komponenty a tokeny; celý dokument není nutný pro každý drobný zásah.
+- Dark mode default.
+- Žádný AI slop: glow, gradientová polívka, centrovaný hero se třemi kartičkami, emoji odrážky, zdi badgů. Míň dekorací, víc ostrých věcí.
+- Žádné podnadpisy ani helper texty pod headingy, labely a kartami. Jeden výstižný heading stačí.
+- Podívej se na vlastní výstup, než mi ho ukážeš. Kdybys to sám neshipnul, neposílej to.
 
-## Parallel Agent Usage
+## Delegace
 
-Always leverage parallel agents for better context management:
+- Codex s GPT-6 Astra (`gpt-6-astra`) je můj primární agent. Jede přes něj většina práce včetně malých UI úprav typu „tohle tlačítko udělej takhle".
+- Claude s Fable 5.1 nastupuje na větší UI a designovou práci, na cross-planning a když nejsem s výsledkem Codexu spokojený. Model vybírej podle úkolu a výsledku; nepřebírej staré cenové předpoklady o Solovi.
+- Po každé větší frontend práci automaticky nemilosrdná kritika čerstvým agentem. Bez říkání.
+- Větší návrh = dva nezávislé plány od dvou modelů + vzájemná kritika, pak syntéza.
+- Code review = čerstvý agent, ne autor kódu. Reviewer nespouští další reviewery. Po opravě nálezů ověř konkrétní změny; celé review opakuj jen při zásadně změněném řešení.
+- Nezávislé části většího úkolu dělej paralelně s jasným vlastnictvím souborů. Malý nebo navazující krok zvládni sám. Paralelní agenti nesmí zároveň spouštět plné testovací sady nad sdíleným prostředím.
+- Žádné sub-agent panely na práci, kterou zvládne jeden agent na jeden zátah. Velké fan-outy (10+ agentů) jen na vyžádání.
+- Eskaluj na chytřejší model bez ptaní, když výstup nestačí. Nikdy Haiku.
 
-- **Use multiple agents simultaneously** - When facing 2+ independent tasks without shared state, deploy parallel agents instead of sequential execution
-- **Maximize parallelization** - Independent operations (codebase exploration, multiple file reads, parallel testing) should run concurrently in a single message
-- **Reduce context overhead** - Parallel execution avoids repeating context between sequential tasks and improves efficiency
-- **Use appropriate agent types** - Combine specialized agents (Explore, Plan, test-runner, etc.) in parallel based on their independence
+## Blast radius
 
-## General Preferences
+- Produkce jen člověk, nebo na můj výslovný pokyn v té zprávě. Dřívější povolení se nepřenáší.
+- Uprate: dev větev se deployuje sama, produkce jen přes ploi.io na můj pokyn. Přes SSH máme malá práva, změny jdou přes ploi dashboard, kam tě pošlu. Read-only úkoly kdykoliv bez ptaní.
+- Na Pivo: EAS build dělám já. App Store submit, OTA a produkční backend proveď po ověření jen na můj výslovný pokyn v aktuální zprávě. „Nasaď“ bez upřesnění znamená backend; přesný postup určuje repo.
+- Během práce nemaž větve, worktrees ani PRs sám. Výjimka je úspěšně mergnutý PR: po ověření merge vždy bez ptaní smaž jeho worktree a lokální i vzdálenou větev. PR nemaž.
+- Nezabíjej proces, který jsi nespustil. Dev servery, Metro a simulátory můžou být moje.
+- Před destruktivním příkazem napiš nejdřív rollback příkaz a dej ho do zprávy.
+- Služby na Pi (Hermes, OpenClaw, Syncthing, Vespra): nesahat bez dovolení.
+- Vault: nikdy nemaž a nepřejmenovávej noty bez ptaní, každá změněná nota dostane `unread: true`.
 
-- If asked to do too much work at once, stop and state that clearly.
-- If computer use is helpful for completing or verifying work, shell out to gpt-5.6-sol with Codex for it (see "Picking the right models" below for how).
+## Git a PR
 
-## Picking the right models for workflows and subagents
+- Commity: konvenční prefix (`feat:`, `fix:`, …), scope klidně, jedna řádka, rozkazovací způsob.
+- Větve: `feat/`, `fix/`, `refactor/`, `docs/`, `test/`, `chore/`.
+- Pracujeme skoro vždy ve worktrees. Lifecycle: práce ve větvi hotová → jednoduchý draft PR s důkazem (test run, screen/video), ať se v rozdělané práci vyznám. Na „otevři PR" přepiš popis pořádně a otevři naostro. Po úspěšném merge PR vždy automaticky smaž jeho worktree a lokální i vzdálenou větev; na potvrzení nečekej. U zavřeného nemergnutého PR úklid jen navrhni.
+- Popis PR: problém jednou dvěma větami podle mého původního zadání, pak řešení. Žádný inventář změn. Na konec blurb, jaký model a harness to dělal.
+- Před otevřením aktualizuj větev vůči správnému základu podle repo pravidel. Uprate i Na Pivo standardně používají dev; nehádej main.
+- UI změny chtějí before/after obrázky, pohyb chce krátké video.
+- Jeden PR = jedna věc. Když popis říká „a taky", rozděl to.
 
-Rankings, higher = better. Cost reflects what I actually pay (OpenAI has really generous limits), not list price. Intelligence is how hard a problem you can hand the model unsupervised. Taste covers UI/UX, code quality, API design, and copy.
+## Dokončení
 
-| model       | cost | intelligence | taste |
-|-------------|------|--------------|-------|
-| gpt-5.6-sol | 7    | 9            | 7     |
-| sonnet-5    | 5    | 5            | 7     |
-| opus-4.8    | 4    | 7            | 8     |
-| fable-5     | 2    | 9            | 9     |
+Dokonči zadanou změnu, ověř dotčené chování a proveď sjednaný commit, push a PR. Průběžná otázka na stav nepřerušuje původní úkol. Skonči po splnění, nebo u konkrétní překážky, kterou bez člověka nelze odstranit. Širší QA má konečný seznam scénářů; další přidávej jen podle nálezů.
 
-How to apply:
-- These are defaults, not limits. You have standing permission to override them: if a cheaper model's output doesn't meet the bar, rerun or redo the work with a smarter model without asking. Judge the output, not the price tag. Escalating costs less than shipping mediocre work.
-- Cost is a tie-breaker only; when axes conflict for anything that ships, intelligence > taste > cost.
-- **Backend implementation: strongly prefer Codex (gpt-5.6-sol).** Route handlers, database/schema work, server logic, scripts, migrations, data processing, CLI tools — anything without a user-facing UI surface — should go through `codex exec` by default, even for small stuff. Don't quietly do it yourself in Sonnet/Opus/Fable just because it's "easy enough." The bar to skip Codex here is higher than for other task types, but the override rule above still applies (e.g. it needs a live Claude subagent loop, or Codex already failed on it).
-- **Reading and investigation: also default to Codex.** Reading code, grepping logs, tracing a bug, exploring an unfamiliar codebase — run `codex exec -s read-only` instead of doing it inline. It's cheap and keeps raw file/log reading off Claude's context.
-- Bulk/mechanical work (clear-spec implementation, data analysis): gpt-5.6-sol on low reasoning effort — still the cheap default, and Sol is strong even on low.
-- Taste calls are the exception: UI, copy, and the *shape* of an API's public interface (naming, structure, what feels good to callers) need taste ≥ 7. This is a design-judgment call, separate from implementing the backend behind it — Codex can build the route once the interface is decided, it just shouldn't be the one deciding what that interface looks like.
-- Reviews of plans/implementations: fable-5 or opus-4.8, optionally gpt-5.6-sol as an extra independent perspective.
-- **Never use Haiku — no exceptions, cost pressure included.**
-- Mechanics: gpt-5.6-sol is only reachable through the Codex CLI — `codex exec` / `codex review` (my ~/.codex/config.toml defaults to gpt-5.6-sol). Use the codex-implementation, codex-review, and codex-computer-use skills for their respective flows.
-- Codex reasoning effort: pick it per run with `-c model_reasoning_effort="<level>"`. Default medium; drop to low for mechanical/clear-spec work (Sol is very good even on low); high only for genuinely hard problems. Never go above high (no xhigh) — and since config.toml defaults to high, always pass the flag explicitly.
-- Claude models (sonnet-5, opus-4.8, fable-5) run via the Agent/Workflow model parameter.
+## Tohle jsou defaulty, ne zákony
 
-Using gpt-5.6-sol inside workflows and subagents (the model parameter only takes Claude models, so use a wrapper):
-- Spawn a thin Claude wrapper agent with `model: 'sonnet', effort: 'low'` whose prompt instructs it to write a self-contained codex prompt, run `codex exec` via Bash, and return codex's raw output verbatim as its final message. Keep the wrapper dumb — it does no reasoning of its own, it just shuttles the prompt to codex and the answer back, so gpt-5.6-sol does the actual work while the Agent/Workflow `model` parameter stays satisfied with a Claude model.
-- Give the wrapper everything codex needs in the prompt itself (codex has no access to the workflow's context), and have it fail loudly — return the error text — if `codex exec` is missing or errors, rather than silently substituting its own answer.
-- Use `schema` on the wrapper to get structured output back.
-- Always label these agents with a `gpt-5.6-sol:` prefix, e.g. `{label: 'gpt-5.6-sol:review-auth'}` — the workflow UI shows the wrapper's Claude model, so the label is the only indication the real worker is gpt-5.6-sol.
-- Codex runs can exceed Bash's 10-minute timeout: pass an explicit timeout, or run in the background and poll for the report file.
-- Parallel gpt-5.6-sol implementation agents must use `isolation: 'worktree'` so codex edits don't collide in the shared checkout.
-- Workflow token budgets only count Claude tokens; codex work is free and invisible to `budget.spent()`.
+Když můj prompt říká něco jiného než tenhle soubor, vyhrává prompt. Když repo má vlastní AGENTS.md/CLAUDE.md, v tom repu vyhrává repo.
 
-## Error Policy
+## Poznámka pro Claude
 
-Always fix any errors you encounter during work - tests, lint, build, or runtime - even if they are pre-existing and unrelated to the current task. Never leave known broken tests or errors behind.
+Voláme tě na větší UI a designovou práci, plánování a nemilosrdnou kritiku. Ucelenou backendovou či mechanickou implementaci předávej Codexu s cílem, omezeními a způsobem ověření. Běžné čtení, hledání a drobný navazující krok udělej přímo, pokud by další proces jen přidal režii. Předání nesmí přerušit autorizované dokončení úkolu.
+
+## Poznámka pro Codex
+
+Jsi primární harness, jede přes tebe většina práce včetně malých frontend úprav. Když ale úkol stojí na designu nebo textu pro lidi a je větší než kosmetika, řekni to a navrhni přehodit na Claude, místo abys to odflákl sám. Stejně tak když se mnou uživatel opakovaně ladí tvůj vizuální výstup a pořád to není ono.
